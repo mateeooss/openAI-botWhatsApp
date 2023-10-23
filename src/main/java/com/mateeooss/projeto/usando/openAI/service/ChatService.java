@@ -13,7 +13,16 @@ import org.springframework.web.client.RestTemplate;
 @Service
 public class ChatService {
     private final String URL = "https://api.openai.com/v1/chat/completions";
-    private final String AUTHORIZATION = "chave openAI";
+
+    private final String AUTHORIZATION;
+
+    public ChatService(
+        @Value("${openAI.authorization}")
+        String authorization
+    ) {
+        AUTHORIZATION = authorization;
+    }
+
     public String sendMessage(MessageRequest messageRequest) throws JsonProcessingException {
         RestTemplate restTemplate = new RestTemplate();
         HttpHeaders headers = new HttpHeaders();
