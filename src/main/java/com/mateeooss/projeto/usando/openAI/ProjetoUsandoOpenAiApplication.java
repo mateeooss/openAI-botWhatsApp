@@ -1,5 +1,7 @@
 package com.mateeooss.projeto.usando.openAI;
 
+import lombok.extern.slf4j.Slf4j;
+import lombok.extern.slf4j.XSlf4j;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -22,6 +24,7 @@ import java.util.Objects;
 import static com.mateeooss.projeto.usando.openAI.service.ImageService.imageToBase64;
 
 @SpringBootApplication
+@Slf4j
 public class ProjetoUsandoOpenAiApplication {
 
 	public static void main(String[] args) {
@@ -62,18 +65,21 @@ public class ProjetoUsandoOpenAiApplication {
 			System.out.println("Bot Funcionando");
 			try {
 				WebDriverWait waitChat = new WebDriverWait(driver, Duration.ofSeconds(10));
-				java.util.List<WebElement> chatTeste = wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath("/html/body/div[1]/div/div[2]/div[3]/div/div[2]/div[2]")));
+				java.util.List<WebElement> chatTeste = wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath("//*[@id=\"pane-side\"]/*//span[@title=\"mateeooss Novo Pohha\"]")));
 
 				for (WebElement chat : chatTeste){
 					chat.click();
 					WebDriverWait waitInbox = new WebDriverWait(driver, Duration.ofSeconds(10));
 					WebElement inboxText = wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath("//*[@id=\"main\"]/footer/div[1]/div/span[2]/div/div[2]/div[1]/div[2]/div[1]/p"))).get(0);
-					inboxText.sendKeys("teste teste bot funcionando bip bop");
-					WebElement send = driver.findElement(By.xpath("//*[@id=\"main\"]/footer/div[1]/div/span[2]/div/div[2]/div[2]/button/span"));
-					send.click();
+
+					inboxText.sendKeys("bot enviando");
+					inboxText.sendKeys(Keys.RETURN);
+//					WebElement send = driver.findElement(By.xpath("//*[@id=\"main\"]/footer/div[1]/div/span[2]/div/div[2]/div[2]/button/span"));
+//					send.click();
 				}
 				Thread.sleep(2000);
 			} catch (InterruptedException e) {
+				log.error("erro em tempo de execução");
 				throw new RuntimeException(e);
 			}
 		}
